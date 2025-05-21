@@ -1,85 +1,230 @@
 <!DOCTYPE html>
 <html lang="ar">
+
 <head>
+  <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <link rel="stylesheet" href="style.css" />
-  <script type="module" src="script.js"></script>
+  <title>عرض المنتجات</title>
+  <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600&display=swap" rel="stylesheet">
+  <style>
+    body {
+      font-family: 'Cairo', sans-serif;
+      margin: 0;
+      padding: 0;
+      background: #f9f9f9;
+    }
 
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>إكسسوارات بنات</title>
-  <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="style.css" />
+    .product-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+      gap: 20px;
+      padding: 20px;
+    }
+
+    .product-card {
+      background-color: #fff;
+      border-radius: 12px;
+      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+      overflow: hidden;
+      cursor: pointer;
+      transition: transform 0.2s ease;
+    }
+
+    .product-card:hover {
+      transform: scale(1.02);
+    }
+
+    .product-img {
+      width: 100%;
+      height: auto;
+      display: block;
+    }
+
+    .product-info {
+      padding: 15px;
+    }
+
+    .product-info h3 {
+      margin: 0;
+      font-size: 18px;
+    }
+
+    .product-price {
+      color: #e91e63;
+      font-weight: bold;
+    }
+
+    .categories-section {
+      display: block;
+    }
+
+    .no-results {
+      padding: 20px;
+      text-align: center;
+      font-size: 18px;
+    }
+
+    /* Responsive */
+    @media (max-width: 768px) {
+      .product-grid {
+        grid-template-columns: 1fr !important;
+        padding: 10px;
+      }
+
+      .product-card {
+        width: 100% !important;
+        font-size: 14px;
+      }
+    }
+  </style>
 </head>
+
 <body>
-  <header>
-    <nav class="navbar">
-      <div class="nav-left">
-        <span class="hamburger">☰</span>
-        <span class="logo">إكسسوارات بنات</span>
-      </div>
-      <div class="nav-right">
-        <ul class="nav-links">
-          <li><a href="#home" class="nav-link active">الرئيسية</a></li>
-          <li><a href="#contact" class="nav-link">تواصل معنا</a></li>
-        </ul>
-        <input type="text" id="search-input" placeholder="ابحثي عن إكسسوار..." />
-        <button class="theme-toggle">🌙</button>
-        <button class="sidebar-toggle">☰</button>
-      </div>
-    </nav>
-  </header>
+  <div class="categories-section">
+    <input id="search-input" type="text" placeholder="ابحث عن منتج..." style="width: 100%; padding: 10px; font-size: 16px;">
+    <div id="categories" class="product-grid"></div>
+  </div>
 
-  <aside class="sidebar">
-    <div class="sidebar-content">
-      <span class="close-sidebar">×</span>
-      <h2>الأقسام</h2>
-      <ul class="sidebar-categories">
-        <li><button class="category-item active" data-filter="all">الكل</button></li>
-      </ul>
-      <h2>تصنيف</h2>
-      <ul class="sidebar-sort">
-        <li><button class="sort-item" data-sort="price-desc">من الأعلى إلى الأقل</button></li>
-        <li><button class="sort-item" data-sort="price-asc">من الأقل إلى الأعلى</button></li>
-      </ul>
-    </div>
-  </aside>
-
-  <section class="hero-section" id="home">
-    <h1>أحدث وأجمل الإكسسوارات</h1>
-    <p>اختاري ما يعبر عن ذوقك من مجموعتنا المميزة</p>
-    <div class="cta-container">
-      <button class="cta-button">تسوقي الآن</button>
-    </div>
-  </section>
-
-  <section class="categories-section" id="categories"></section>
-
-  <section class="contact-section" id="contact">
-    <h2>تواصل معنا</h2>
-    <p>للاستفسارات، تواصلي معنا على الرقم: <a href="tel:0123456789">0123456789</a></p>
-    <p>أو البريد الإلكتروني: <a href="mailto:info@accessories.com">info@accessories.com</a></p>
-  </section>
-
-  <div class="modal" id="product-modal">
-    <div class="modal-content">
-      <span class="close-modal">×</span>
-      <img id="modal-img" src="" alt="Product Image" />
-      <h2 id="modal-name"></h2>
+  <!-- Modal -->
+  <div id="product-modal" style="display:none; position:fixed;top:0;left:0;width:100%;height:100%;background:#00000080;justify-content:center;align-items:center;">
+    <div style="background:#fff;padding:20px;border-radius:8px;width:90%;max-width:400px;position:relative;text-align:center;">
+      <span class="close-modal" style="position:absolute;top:10px;right:10px;cursor:pointer;font-size:20px;">&times;</span>
+      <img id="modal-img" src="" style="max-width:100%; height:auto;">
+      <h3 id="modal-name"></h3>
       <p id="modal-desc"></p>
-      <span id="modal-price"></span>
-      <button class="download-product">تحميل المنتج</button>
+      <p id="modal-price"></p>
+      <button class="download-product">تحميل</button>
     </div>
   </div>
 
-  <footer>
-    <p>© 2025 كل الحقوق محفوظة لإكسسوارات بنات</p>
-  </footer>
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.14.1/firebase-app.js";
+    import { getDatabase, ref, onValue } from "https://www.gstatic.com/firebasejs/10.14.1/firebase-database.js";
 
-  <!-- مكتبة البحث Fuse -->
-  <script src="https://cdn.jsdelivr.net/npm/fuse.js@7.0.0"></script>
+    const firebaseConfig = {
+      apiKey: "AIzaSyAkDcvw4nvYOhBgCNfwO0k61k1_AjqQsJI",
+      authDomain: "bueate-260eb.firebaseapp.com",
+      databaseURL: "https://bueate-260eb-default-rtdb.firebaseio.com",
+      projectId: "bueate-260eb",
+      storageBucket: "bueate-260eb.appspot.com",
+      messagingSenderId: "639988468482",
+      appId: "1:639988468482:web:9ea8920d3bb79ce23dd01b"
+    };
 
-  <!-- سكربت المستخدم كموديول -->
-  <script type="module" src="script.js"></script>
+    const app = initializeApp(firebaseConfig);
+    const db = getDatabase(app);
+
+    let data = { categories: [], products: {} };
+    let allProducts = [];
+    let fuse;
+
+    const container = document.getElementById("categories");
+
+    function renderProducts(products) {
+      container.innerHTML = "";
+      const grid = document.createElement("div");
+      grid.className = "product-grid";
+      products.forEach(product => {
+        const card = document.createElement("div");
+        card.className = "product-card";
+        card.innerHTML = `
+          <img class="product-img" src="${product.img || 'https://via.placeholder.com/200'}" alt="${product.name}" />
+          <div class="product-info">
+            <h3>${product.name}</h3>
+            <p>${product.desc || 'بدون وصف'}</p>
+            <span class="product-price">${product.price} جنيه</span>
+          </div>
+        `;
+        card.addEventListener("click", () => showModal(product));
+        grid.appendChild(card);
+      });
+      container.appendChild(grid);
+    }
+
+    function showModal(product) {
+      document.getElementById("modal-img").src = product.img || 'https://via.placeholder.com/200';
+      document.getElementById("modal-name").textContent = product.name;
+      document.getElementById("modal-desc").textContent = product.desc || 'بدون وصف';
+      document.getElementById("modal-price").textContent = `${product.price} جنيه`;
+      document.querySelector(".download-product").setAttribute("data-name", product.name);
+      document.querySelector(".download-product").setAttribute("data-price", product.price);
+      document.querySelector(".download-product").setAttribute("data-img", product.img || 'https://via.placeholder.com/200');
+      document.getElementById("product-modal").style.display = "flex";
+    }
+
+    document.querySelector(".close-modal").addEventListener("click", () => {
+      document.getElementById("product-modal").style.display = "none";
+    });
+
+    function downloadProductImage(name, price, imgSrc) {
+      const canvas = document.createElement("canvas");
+      const ctx = canvas.getContext("2d");
+      canvas.width = 400;
+      canvas.height = 500;
+
+      ctx.fillStyle = "#fff";
+      ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+      const img = new Image();
+      img.crossOrigin = "anonymous";
+      img.src = imgSrc;
+      img.onload = () => {
+        ctx.drawImage(img, 100, 50, 200, 200);
+        ctx.fillStyle = "#000";
+        ctx.font = "20px Cairo";
+        ctx.textAlign = "center";
+        ctx.fillText(name, canvas.width / 2, 300);
+        ctx.font = "18px Cairo";
+        ctx.fillText(`السعر: ${price} جنيه`, canvas.width / 2, 330);
+        ctx.fillText("إكسسوارات بنات", canvas.width / 2, 360);
+
+        const link = document.createElement("a");
+        link.download = `${name.replace(/\s+/g, '_')}_product.png`;
+        link.href = canvas.toDataURL("image/png");
+        link.click();
+      };
+    }
+
+    document.querySelector(".download-product").addEventListener("click", () => {
+      const name = document.getElementById("modal-name").textContent;
+      const price = document.getElementById("modal-price").textContent.match(/\d+/)?.[0] || "0";
+      const imgSrc = document.getElementById("modal-img").src;
+      downloadProductImage(name, price, imgSrc);
+    });
+
+    document.getElementById("search-input").addEventListener("input", (e) => {
+      const query = e.target.value.trim();
+      if (query === "") {
+        renderProducts(allProducts);
+        return;
+      }
+      const results = fuse.search(query).map(res => res.item);
+      if (results.length > 0) {
+        renderProducts(results);
+      } else {
+        container.innerHTML = `<div class="no-results">لا توجد نتائج للبحث: "${query}"</div>`;
+      }
+    });
+
+    const categoriesRef = ref(db, 'categories');
+    const productsRef = ref(db, 'products');
+
+    onValue(productsRef, (snapshot) => {
+      data.products = snapshot.val() || {};
+      allProducts = Object.keys(data.products).flatMap(category =>
+        (data.products[category] || []).map(product => ({ ...product, category }))
+      );
+
+      fuse = new Fuse(allProducts, {
+        keys: ['name', 'desc'],
+        threshold: 0.4,
+        includeScore: true,
+      });
+
+      renderProducts(allProducts);
+    });
+  </script>
+  <script src="https://cdn.jsdelivr.net/npm/fuse.js@6.6.2"></script>
 </body>
+
 </html>
