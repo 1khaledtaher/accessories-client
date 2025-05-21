@@ -1,1 +1,85 @@
+<!DOCTYPE html>
+<html lang="ar">
+<head>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="style.css" />
+  <script type="module" src="script.js"></script>
 
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>إكسسوارات بنات</title>
+  <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <header>
+    <nav class="navbar">
+      <div class="nav-left">
+        <span class="hamburger">☰</span>
+        <span class="logo">إكسسوارات بنات</span>
+      </div>
+      <div class="nav-right">
+        <ul class="nav-links">
+          <li><a href="#home" class="nav-link active">الرئيسية</a></li>
+          <li><a href="#contact" class="nav-link">تواصل معنا</a></li>
+        </ul>
+        <input type="text" id="search-input" placeholder="ابحثي عن إكسسوار..." />
+        <button class="theme-toggle">🌙</button>
+        <button class="sidebar-toggle">☰</button>
+      </div>
+    </nav>
+  </header>
+
+  <aside class="sidebar">
+    <div class="sidebar-content">
+      <span class="close-sidebar">×</span>
+      <h2>الأقسام</h2>
+      <ul class="sidebar-categories">
+        <li><button class="category-item active" data-filter="all">الكل</button></li>
+      </ul>
+      <h2>تصنيف</h2>
+      <ul class="sidebar-sort">
+        <li><button class="sort-item" data-sort="price-desc">من الأعلى إلى الأقل</button></li>
+        <li><button class="sort-item" data-sort="price-asc">من الأقل إلى الأعلى</button></li>
+      </ul>
+    </div>
+  </aside>
+
+  <section class="hero-section" id="home">
+    <h1>أحدث وأجمل الإكسسوارات</h1>
+    <p>اختاري ما يعبر عن ذوقك من مجموعتنا المميزة</p>
+    <div class="cta-container">
+      <button class="cta-button">تسوقي الآن</button>
+    </div>
+  </section>
+
+  <section class="categories-section" id="categories"></section>
+
+  <section class="contact-section" id="contact">
+    <h2>تواصل معنا</h2>
+    <p>للاستفسارات، تواصلي معنا على الرقم: <a href="tel:0123456789">0123456789</a></p>
+    <p>أو البريد الإلكتروني: <a href="mailto:info@accessories.com">info@accessories.com</a></p>
+  </section>
+
+  <div class="modal" id="product-modal">
+    <div class="modal-content">
+      <span class="close-modal">×</span>
+      <img id="modal-img" src="" alt="Product Image" />
+      <h2 id="modal-name"></h2>
+      <p id="modal-desc"></p>
+      <span id="modal-price"></span>
+      <button class="download-product">تحميل المنتج</button>
+    </div>
+  </div>
+
+  <footer>
+    <p>© 2025 كل الحقوق محفوظة لإكسسوارات بنات</p>
+  </footer>
+
+  <!-- مكتبة البحث Fuse -->
+  <script src="https://cdn.jsdelivr.net/npm/fuse.js@7.0.0"></script>
+
+  <!-- سكربت المستخدم كموديول -->
+  <script type="module" src="script.js"></script>
+</body>
+</html>
